@@ -8,9 +8,9 @@ The Docker recipe contains all the programs and configurations required to run t
 
 * SwiftGecko: https://github.com/mmondelli/swift-gecko
 
-* SwiftPhylo: https://github.com/mmondelli/swift-gecko
+* SwiftPhylo: https://github.com/mmondelli/swift-phylo
 
-* RASflow: https://github.com/mmondelli/swift-gecko
+* RASflow: https://github.com/mmondelli/rasflow
 
 Please refer to the links above for a better description of each of the experiments, as well as instructions for their execution.
 
