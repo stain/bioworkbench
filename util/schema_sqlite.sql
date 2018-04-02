@@ -17,13 +17,13 @@ create table script_run_argument (
 );
 
 create table script_run_annot_text (
-			app_exec_id		text references script_run (script_run_id),
+			script_run_id		text references script_run (script_run_id),
 			key				text,
 			value			text
 );
 
 create table script_run_annot_numeric (
-			app_exec_id		text references script_run (script_run_id),
+			script_run_id		text references script_run (script_run_id),
 			key				text,
 			value			numeric
 );
