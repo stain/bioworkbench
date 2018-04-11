@@ -164,7 +164,7 @@ for line in iter(log_file):
         hostname=line.split()[5]
 
     if 'Loader ARGUMENTS' in line:
-        scriptFileName=line.split()[9].strip(',')
+        scriptFileName=line.split()[9].strip(',').strip(']')
 	if len(line.split()) > 9:
 	    for arg in range(10, len(line.split())):
 	        arg, value = (line.split()[arg].strip(',').strip(']').split('='))
