@@ -64,12 +64,6 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
     rm -f version.txt ss-latest.deb
 
 # ==================
-# HPSW-PROF ========
-# ==================
-
-RUN cd /srv/shiny-server; git clone https://github.com/mmondelli/swift-prof.git
-
-# ==================
 # SWIFT ============
 # ==================
 
@@ -103,6 +97,7 @@ ENV PATH "$PATH":/${SWIFT_GECKO}/bin:.:
 RUN cd /root; git clone https://github.com/mmondelli/rasflow.git
 ENV RASFLOW /root/rasflow
 ENV PATH "$PATH":/${RASFLOW}/bin:.:
+RUN mv /root/rasflow/workbench /srv/shiny-server/
 
 # TABIX E BGZIP ====
 
@@ -147,9 +142,10 @@ WORKDIR /root
 EXPOSE 3838
 
 COPY util/shiny-server.sh /usr/bin/shiny-server.sh
+COPY util/swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
 
 RUN chmod 777 /usr/bin/shiny-server.sh
-RUN ln -s /srv/shiny-server/swift-prof/swift_provenance.db swift_provenance.db
+RUN ln -s /srv/shiny-server/workbench/swift_provenance.db swift_provenance.db
 
 CMD ["/usr/bin/shiny-server.sh"]
 
