@@ -27,7 +27,7 @@ docker run --rm -p 3837:3838 --name bio bioworkbench:latest
 ```
 
 And with this you can access a web interface to analyze the provenance of the workflows executed through the address:
-http://localhost:3837/swift-prof
+http://localhost:3837/workbench
 
 To run the experiments and other commands in the running container, you can use (from another terminal):
 
