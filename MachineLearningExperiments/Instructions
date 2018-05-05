@@ -1,0 +1,34 @@
+1. Get in the folder "Weka-3-6-12", inside the "ML" folder and open terminal.
+
+2. Open Weka doing:
+       > java -jar weka.jar
+
+3. Select "Simple CLI" to open the Weka's command line. Then, in Weka's command line do:  
+
+4. Remove from the database the attributes "script_run_id", "script_run_dir" (numeric idetifiers), "fixed_length", (same value for all instances) and "total_written/total_fasta_length" (derivated atribute):
+       > java weka.filters.unsupervised.attribute.Remove -R "1, 2, 6, 11" -i ../Database.arff -o ../Database2.arff
+
+5. Get the linear regression model:      
+       > java weka.classifiers.functions.LinearRegression -t "../Database2.arff" -c 4 -x 10
+
+6. Get the multilayer neural network model:
+       > java weka.classifiers.functions.MultilayerPerceptron -t "../Database2.arff" -c 4 -x 10
+       
+7. Discretize the attribute "duration" into 5 bins:
+       > java weka.filters.unsupervised.attribute.Discretize -B 5 -R 4 -i "../Database2.arff" -o "../Database3.arff"
+
+8. Remove from the database the attribute "total_written", because it is obtained after the execution, and not before:
+       > java weka.filters.unsupervised.attribute.Remove -R "7" -i ../Database3.arff -o ../Database4.arff       
+       
+9. Get the gain ratios concerning to the duration attribute:
+       > java weka.attributeSelection.GainRatioAttributeEval -i "../Database4.arff" -c 4
+       
+10. Get the J48 cost sensitive classifier:
+       > java weka.classifiers.meta.CostSensitiveClassifier -t "../Database4.arff" -C "../CostMatrix.cost" -W "weka.classifiers.trees.J48" -c 4
+
+11. Get the BFTree cost sensitive classifier:
+       > java weka.classifiers.meta.CostSensitiveClassifier -t "../Database4.arff" -C "../CostMatrix.cost" -W "weka.classifiers.trees.BFTree" -c 4
+       
+12. Get the OneR cost sensitive rule:
+       > java weka.classifiers.meta.CostSensitiveClassifier -t "../Database4.arff" -C "../CostMatrix.cost" -W "weka.classifiers.rules.OneR" -c 4
+       

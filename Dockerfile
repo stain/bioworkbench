@@ -133,6 +133,12 @@ ENV PATH "$PATH":/usr/local/bowtie2-2.1.0:.:
 RUN pip install numpy scipy
 RUN pip install biopython
 
+# ==================
+# FINAL CONFIG =====
+# ==================
+
+RUN apt-get install -y weka
+
 WORKDIR /root
 
 # ==================
@@ -146,6 +152,9 @@ COPY util/swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
 
 RUN chmod 777 /usr/bin/shiny-server.sh
 RUN ln -s /srv/shiny-server/workbench/swift_provenance.db swift_provenance.db
+
+RUN mkdir MachineLearningExperiments
+COPY MachineLearningExperiments /root/MachineLearningExperiments
 
 CMD ["/usr/bin/shiny-server.sh"]
 
