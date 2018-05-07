@@ -25,8 +25,8 @@ ENV JAVA_VERSION 8u91
 ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_111/
 COPY util/jdk-8u111-linux-x64.tar.gz /usr/lib/jvm/
 WORKDIR /usr/lib/jvm
-RUN tar -zxvf jdk-8u111-linux-x64.tar.gz && \
-    rm jdk-8u111-linux-x64.tar.gz
+RUN tar -zxvf jdk-8u111-linux-x64.tar.gz 
+#&& \ rm jdk-8u111-linux-x64.tar.gz
 ENV PATH "$PATH":/${JAVA_HOME}/bin:.:
 
 # ==================
@@ -148,13 +148,21 @@ WORKDIR /root
 EXPOSE 3838
 
 COPY util/shiny-server.sh /usr/bin/shiny-server.sh
-COPY util/swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
+#COPY util/swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
+
+RUN wget https://zenodo.org/record/1242591/files/swift_provenance.db.gz
+RUN gunzip swift_provenance.db.gz
+RUN mv swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
 
 RUN chmod 777 /usr/bin/shiny-server.sh
 RUN ln -s /srv/shiny-server/workbench/swift_provenance.db swift_provenance.db
 
 RUN mkdir MachineLearningExperiments
 COPY MachineLearningExperiments /root/MachineLearningExperiments
+
+RUN mkdir util
+COPY util/phylo_scale.db /root/util/
+COPY util/phylo_scale.csv /root/util/
 
 CMD ["/usr/bin/shiny-server.sh"]
 
