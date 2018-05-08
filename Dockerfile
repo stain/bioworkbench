@@ -4,6 +4,8 @@ MAINTAINER Maria Luiza Mondelli <malumondelli@gmail.com>
 
 RUN apt-get update
 
+ENV TZ="/usr/share/zoneinfo/Brazil/East"
+
 RUN apt-get install -y \
 	sqlite3 \
 	git \
