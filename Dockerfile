@@ -6,6 +6,8 @@ RUN apt-get update
 
 ENV TZ="/usr/share/zoneinfo/Brazil/East"
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get install -y \
 	sqlite3 \
 	git \
