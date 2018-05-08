@@ -1,6 +1,10 @@
 #!/bin/bash
 
+# To use this script execute: swift_provenance-to-opm.sh <database file>
+
 echo Generating OPM for entire sqlite3 database
+
+provdb=$1
 
 rm -f ids.txt
 touch ids.txt
@@ -34,7 +38,7 @@ echo "<accounts><account id=\"base\"><value /></account></accounts>" >> opm.xml
 
 echo "<processes>" >> opm.xml
 
-sqlite3 -separator ' ' -batch provdb "select * from app_exec;"  |
+sqlite3 -separator ' ' -batch $provdb "select * from app_exec;"  |
   while read id wf_id app execution_site starttime1 starttime2 duration rest; do
     starttime="$starttime1 $starttime2"
     echo "  <process id=\""$id"q\">"
@@ -55,7 +59,7 @@ echo "<artifacts>" >> opm.xml
 # find in the tie-data-invocs and containment tables, uniquefied.
 # This is probably the wrong thing to do?
 
-sqlite3 -separator ' ' -batch provdb "select file_id from file;" >> tmp-dshandles.txt
+sqlite3 -separator ' ' -batch $provdb "select file_id from file;" >> tmp-dshandles.txt
 
 cat tmp-dshandles.txt | sort | uniq > tmp-dshandles2.txt
 
@@ -65,7 +69,7 @@ echo "    <value>"
 echo "    <swift:uri>$artifact</swift:uri>"
 
 
-sqlite3 -separator ' ' -batch provdb "select name from file where file_id='$artifact';" | while read fn ; do
+sqlite3 -separator ' ' -batch $provdb "select name from file where file_id='$artifact';" | while read fn ; do
   echo "<swift:filename>$fn</swift:filename>"
  done
 
@@ -89,7 +93,7 @@ echo "<causalDependencies>" >> opm.xml
 # in two passes, one for each relation, in order to satisfy schema.
 # but for now do it in a single pass...
 
-sqlite3 -separator ' ' -batch provdb "select * from staged_in;" |
+sqlite3 -separator ' ' -batch $provdb "select * from staged_in;" |
  while read thread dataset; do
     echo "  <used>"
     echo "    <effect id=\"$thread\" />"
@@ -99,7 +103,7 @@ sqlite3 -separator ' ' -batch provdb "select * from staged_in;" |
     echo "  </used>"
 done >> opm.xml
 
-sqlite3 -separator ' ' -batch provdb "select * from staged_out;" |
+sqlite3 -separator ' ' -batch $provdb "select * from staged_out;" |
  while read thread dataset; do
   echo "  <wasGeneratedBy>"
   echo "    <effect id=\"$dataset\" />"
@@ -117,7 +121,7 @@ done >> opm.xml
 # no-earlier-than times. in reality, we know the swift log timestamp
 # resolution and can take that into account
 
-sqlite3 -separator ' ' -batch provdb "select * from app_exec;" | while read id wf_id app site starttime1 starttime2 duration si_duration so_duration scratch ; 
+sqlite3 -separator ' ' -batch $provdb "select * from app_exec;" | while read id wf_id app site starttime1 starttime2 duration si_duration so_duration scratch ; 
 do
   (  starttime="$starttime1 $starttime2"
      echo "<wasControlledBy><effect id=\"$id\"/><role />" ;
