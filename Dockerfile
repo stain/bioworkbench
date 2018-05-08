@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu
 
 MAINTAINER Maria Luiza Mondelli <malumondelli@gmail.com>
 
@@ -15,19 +15,22 @@ RUN apt-get install -y \
 	time \
 	libssl1.0.0 \
 	vim \
-	python-pip
+	python-pip \
+	openjdk-8-jdk && \
+	apt-get clean
 	
 # ==================
 # JAVA =============
 # ==================
 
-ENV JAVA_VERSION 8u91
-ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_111/
-COPY util/jdk-8u111-linux-x64.tar.gz /usr/lib/jvm/
-WORKDIR /usr/lib/jvm
-RUN tar -zxvf /usr/lib/jvm/jdk-8u111-linux-x64.tar.gz 
+#ENV JAVA_VERSION 8u91
+#ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_111/
+#COPY util/jdk-8u111-linux-x64.tar.gz /usr/lib/jvm/
+#WORKDIR /usr/lib/jvm
+#RUN tar -zxvf /usr/lib/jvm/jdk-8u111-linux-x64.tar.gz 
 #&& \ rm jdk-8u111-linux-x64.tar.gz
-ENV PATH "$PATH":/${JAVA_HOME}/bin:.:
+#RUN apt-get install -y openjdk-8-jdk
+#ENV PATH "$PATH":/${JAVA_HOME}/bin:.:
 
 # ==================
 # R PACKAGES =======
