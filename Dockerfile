@@ -158,8 +158,8 @@ COPY util/shiny-server.sh /usr/bin/shiny-server.sh
 #COPY util/swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
 
 RUN wget https://zenodo.org/record/1242591/files/swift_provenance.db.gz
-RUN gunzip swift_provenance.db.gz
-RUN mv swift_provenance.db /srv/shiny-server/workbench/swift_provenance.db
+RUN mv swift_provenance.db.gz /srv/shiny-server/workbench/swift_provenance.db.gz
+RUN gunzip /srv/shiny-server/workbench/swift_provenance.db.gz
 
 RUN chmod 777 /usr/bin/shiny-server.sh
 RUN ln -s /srv/shiny-server/workbench/swift_provenance.db swift_provenance.db
