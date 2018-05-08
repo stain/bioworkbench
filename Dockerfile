@@ -170,7 +170,7 @@ COPY MachineLearningExperiments /root/MachineLearningExperiments
 RUN mkdir util
 COPY util/phylo_scale.db /root/util/
 COPY util/phylo_scale.csv /root/util/
-COPY util/swift_provenance-to-opm.sh /root/util
+COPY util/swift_provenance-to-opm.sh /root/util/
 
 CMD ["/usr/bin/shiny-server.sh"]
 
