@@ -46,7 +46,7 @@ RUN apt-get install -y \
 
 #RUN apt-get update
 
-RUN apt-get install -y r-base
+RUN apt-get install -y r-base libicu-dev
 
 RUN R -e "install.packages(c('shiny', 'rmarkdown', 'ggplot2', 'sqldf', 'formattable', 'RColorBrewer', 'shinydashboard', 'DT', 'plyr', 'dplyr', 'reshape', 'lubridate', 'scales', 'anytime', 'shinyjs'), repos='https://cloud.r-project.org/')"
 
